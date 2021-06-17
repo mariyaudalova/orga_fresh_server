@@ -4,42 +4,42 @@ const passport = require("passport"); // multer for parsing multipart form data 
 
 //Import controllers
 const {
-  addSlide,
-  updateSlide,
-  deleteSlide,
-  getSlides
-} = require("../controllers/slides");
+  addSize,
+  updateSize,
+  deleteSize,
+  getSizes
+} = require("../controllers/sizes");
 
-// @route   POST /slides
-// @desc    Create new slide
+// @route   POST /sizes
+// @desc    Create new size
 // @access  Private
 router.post(
   "/",
   passport.authenticate("jwt-admin", { session: false }),
-  addSlide
+  addSize
 );
 
-// @route   PUT /slides/:id
-// @desc    Update existing slide
+// @route   PUT /sizes/:id
+// @desc    Update existing size
 // @access  Private
 router.put(
-  "/:customId",
+  "/:id",
   passport.authenticate("jwt-admin", { session: false }),
-  updateSlide
+  updateSize
 );
 
-// @route   DELETE /slides/:id
-// @desc    Delete existing slide
+// @route   DELETE /sizes/:id
+// @desc    DELETE existing size
 // @access  Private
 router.delete(
-  "/:customId",
+  "/:id",
   passport.authenticate("jwt-admin", { session: false }),
-  deleteSlide
+  deleteSize
 );
 
-// @route   GET /slides
-// @desc    GET existing slides
+// @route   GET /sizes
+// @desc    GET existing sizes
 // @access  Public
-router.get("/", getSlides);
+router.get("/", getSizes);
 
 module.exports = router;

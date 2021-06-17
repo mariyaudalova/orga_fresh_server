@@ -1,17 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const passport = require('passport');
 const path = require('path');
 require('dotenv').config();
 
-const brands = require('./routes/brands');
 const globalConfigs = require('./routes/globalConfigs');
 const customers = require('./routes/customers');
 const catalog = require('./routes/catalog');
 const products = require('./routes/products');
 const colors = require('./routes/colors');
+const sizes = require('./routes/sizes');
 const filters = require('./routes/filters');
 const subscribers = require('./routes/subscribers');
 const cart = require('./routes/cart');
@@ -23,13 +22,10 @@ const wishlist = require('./routes/wishlist');
 const comments = require('./routes/comments');
 const shippingMethods = require('./routes/shippingMethods');
 const paymentMethods = require('./routes/paymentMethods');
-const errors = require('./routes/errors');
 const partners = require('./routes/partners');
 const mainRoute = require('./routes/index');
 
 const app = express();
-
-app.use(cors());
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -42,7 +38,7 @@ const db = require('./config/keys').mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
@@ -51,12 +47,12 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 // Use Routes
-app.use('/api/brands', brands);
 app.use('/api/configs', globalConfigs);
 app.use('/api/customers', customers);
 app.use('/api/catalog', catalog);
 app.use('/api/products', products);
 app.use('/api/colors', colors);
+app.use('/api/sizes', sizes);
 app.use('/api/filters', filters);
 app.use('/api/subscribers', subscribers);
 app.use('/api/cart', cart);
@@ -68,7 +64,6 @@ app.use('/api/wishlist', wishlist);
 app.use('/api/comments', comments);
 app.use('/api/shipping-methods', shippingMethods);
 app.use('/api/payment-methods', paymentMethods);
-app.use('/api/error', errors);
 app.use('/api/partners', partners);
 app.use('/', mainRoute);
 

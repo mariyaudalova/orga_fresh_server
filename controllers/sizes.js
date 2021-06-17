@@ -1,20 +1,20 @@
-const Color = require("../models/Color");
+const Size = require("../models/Size");
 const queryCreator = require("../commonHelpers/queryCreator");
 const _ = require("lodash");
 
-exports.addColor = (req, res, next) => {
-  Color.findOne({ name: req.body.name }).then(color => {
-    if (color) {
+exports.addSize = (req, res, next) => {
+  Size.findOne({ name: req.body.name }).then(size => {
+    if (size) {
       return res
         .status(400)
-        .json({ message: `Color with name "${color.name}" already exists` });
+        .json({ message: `Size with name "${size.name}" already exists` });
     } else {
       const initialQuery = _.cloneDeep(req.body);
-      const newColor = new Color(queryCreator(initialQuery));
+      const newSize = new Size(queryCreator(initialQuery));
 
-      newColor
+      newSize
         .save()
-        .then(color => res.json(color))
+        .then(size => res.json(size))
         .catch(err =>
           res.status(400).json({
             message: `Error happened on server: "${err}" `
@@ -24,23 +24,23 @@ exports.addColor = (req, res, next) => {
   });
 };
 
-exports.updateColor = (req, res, next) => {
-  Color.findOne({ _id: req.params.id })
-    .then(color => {
-      if (!color) {
+exports.updateSize = (req, res, next) => {
+  Size.findOne({ _id: req.params.id })
+    .then(size => {
+      if (!size) {
         return res
           .status(400)
-          .json({ message: `Color with _id "${req.params.id}" is not found.` });
+          .json({ message: `Size with _id "${req.params.id}" is not found.` });
       } else {
         const initialQuery = _.cloneDeep(req.body);
-        const updatedColor = queryCreator(initialQuery);
+        const updatedSize = queryCreator(initialQuery);
 
-        Color.findOneAndUpdate(
+        Size.findOneAndUpdate(
           { _id: req.params.id },
-          { $set: updatedColor },
+          { $set: updatedSize },
           { new: true }
         )
-          .then(color => res.json(color))
+          .then(size => res.json(size))
           .catch(err =>
             res.status(400).json({
               message: `Error happened on server: "${err}" `
@@ -55,19 +55,19 @@ exports.updateColor = (req, res, next) => {
     );
 };
 
-exports.deleteColor = (req, res, next) => {
-  Color.findOne({ _id: req.params.id }).then(async color => {
-    if (!color) {
+exports.deleteSize = (req, res, next) => {
+  Size.findOne({ _id: req.params.id }).then(async size => {
+    if (!size) {
       return res
         .status(400)
-        .json({ message: `Color with _id "${req.params.id}" is not found.` });
+        .json({ message: `Size with _id "${req.params.id}" is not found.` });
     } else {
-      const colorToDelete = await Color.findOne({ _id: req.params.id });
+      const sizeToDelete = await Size.findOne({ _id: req.params.id });
 
-      Color.deleteOne({ _id: req.params.id })
+      Size.deleteOne({ _id: req.params.id })
         .then(deletedCount =>
           res.status(200).json({
-            message: `Color witn name "${colorToDelete.name}" is successfully deletes from DB `
+            message: `Size witn name "${sizeToDelete.name}" is successfully deletes from DB `
           })
         )
         .catch(err =>
@@ -79,9 +79,9 @@ exports.deleteColor = (req, res, next) => {
   });
 };
 
-exports.getColors = (req, res, next) => {
-  Color.find()
-    .then(colors => res.json(colors))
+exports.getSizes = (req, res, next) => {
+  Size.find()
+    .then(sizes => res.json(sizes))
     .catch(err =>
       res.status(400).json({
         message: `Error happened on server: "${err}" `

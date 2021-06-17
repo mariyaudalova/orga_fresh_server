@@ -1,31 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PageSchema = new Schema(
   {
     customId: {
       type: String,
-      required: true,
+      required: true
     },
     title: {
       type: String,
-      required: true,
+      required: true
     },
     images: [String],
     htmlContent: {
       type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
+      required: true
     },
     date: {
       type: Date,
-      default: Date.now,
-    },
+      default: Date.now
+    }
   },
   { strict: false }
 );
 
-module.exports = Page = mongoose.model('pages', PageSchema);
+module.exports = Page = mongoose.model("pages", PageSchema);
