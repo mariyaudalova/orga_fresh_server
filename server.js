@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const path = require('path');
+const cors = require('cors');
 require('dotenv').config();
 
 const globalConfigs = require('./routes/globalConfigs');
@@ -26,6 +27,7 @@ const partners = require('./routes/partners');
 const mainRoute = require('./routes/index');
 
 const app = express();
+app.use(cors());
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,7 +40,7 @@ const db = require('./config/keys').mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log('MongoDB Connected'))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
